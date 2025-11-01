@@ -1,0 +1,156 @@
+{
+  "name": "beam-vscode-extension",
+  "displayName": "Beam AI",
+  "description": "Autonomous AI Software Engineer for VS Code",
+  "version": "1.0.0",
+  "publisher": "beam-ai",
+  "icon": "resources/icon.png",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Machine Learning",
+    "Snippets",
+    "Other"
+  ],
+  "keywords": [
+    "ai",
+    "assistant",
+    "copilot",
+    "code-generation",
+    "refactoring"
+  ],
+  "repository": {
+   "type": "git",
+   "url": "https://github.com/yourusername/beam-vscode-extension"
+ },
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "beam.openChat",
+        "title": "Open Beam Chat",
+        "category": "Beam"
+      },
+      {
+        "command": "beam.explainCode",
+        "title": "Explain This Code",
+        "category": "Beam"
+      },
+      {
+        "command": "beam.refactorCode",
+        "title": "Refactor This Code",
+        "category": "Beam"
+      },
+      {
+        "command": "beam.fixError",
+        "title": "Fix This Error",
+        "category": "Beam"
+      },
+      {
+        "command": "beam.clearChat",
+        "title": "Clear Chat History",
+        "category": "Beam"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "beam-sidebar",
+          "title": "Beam AI",
+          "icon": "resources/sidebar-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "beam-sidebar": [
+        {
+          "type": "webview",
+          "id": "beamChatView",
+          "name": "Chat"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "beam.explainCode",
+          "when": "editorHasSelection",
+          "group": "beam@1"
+        },
+        {
+          "command": "beam.refactorCode",
+          "when": "editorHasSelection",
+          "group": "beam@2"
+        },
+        {
+          "command": "beam.fixError",
+          "when": "editorTextFocus",
+          "group": "beam@3"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "beam.clearChat",
+          "when": "view == beamChatView",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Beam AI",
+      "properties": {
+        "beam.apiUrl": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "Beam API server URL"
+        },
+        "beam.autoApplyChanges": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically apply changes without confirmation"
+        },
+        "beam.showConfidence": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show confidence scores in responses"
+        },
+        "beam.maxMessageHistory": {
+          "type": "number",
+          "default": 50,
+          "description": "Maximum number of messages to keep in history"
+        },
+        "beam.streamingEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable streaming responses"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile && npm run build-webview",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "build-webview": "cd webview && npm run build",
+    "package": "vsce package",
+    "dev": "npm run watch",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "@vscode/test-electron": "^2.3.0",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
